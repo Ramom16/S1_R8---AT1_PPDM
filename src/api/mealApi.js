@@ -1,54 +1,38 @@
-const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
+const URL_BASE = 'https://www.themealdb.com/api/json/v1/1';
 
-// Busca pratos por categoria ou área (ex: Italian, Seafood)
-export const fetchMealsByCategory = async (categoria) => {
+/**
+ * Busca uma lista de pratos filtrando por categoria ou culinária/origem.
+ * Ex: 'Italian', 'Seafood', 'Dessert'
+ */
+export const buscarPratosPorFiltro = async (filtro) => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/filter.php?c=${categoria}`
-    );
-    const data = await response.json();
-    return data.meals || [];
-  } catch (error) {
-    console.error('Erro ao buscar refeições:', error);
-    return [];
-  }
-};
+    let resposta = await fetch(`${URL_BASE}/filter.php?c=${filtro}`);
+    let dados = await resposta.json();
 
-// Alias para compatibilidade - busca pratos por filtro (categoria ou área)
-export const getPratosPorFiltro = async (filtro) => {
-  try {
-    // Tenta buscar por Categoria primeiro
-    let response = await fetch(`${BASE_URL}/filter.php?c=${filtro}`);
-    let data = await response.json();
-    
-    if (!data.meals) {
-      // Se não encontrar, tenta por Área/Culinária
-      response = await fetch(`${BASE_URL}/filter.php?a=${filtro}`);
-      data = await response.json();
+    if (!dados.meals) {
+      resposta = await fetch(`${URL_BASE}/filter.php?a=${filtro}`);
+      dados = await resposta.json();
     }
-    
-    return data.meals || [];
-  } catch (error) {
-    console.error('Erro ao buscar pratos:', error);
+
+    return dados.meals || [];
+  } catch (erro) {
+    console.error('Erro ao buscar a lista de pratos:', erro);
     return [];
   }
 };
 
-// Busca os detalhes completos de um prato pelo ID
-export const fetchMealDetails = async (mealId) => {
+/**
+ * Busca os detalhes completos de um prato específico através do seu ID.
+ * Exemplo de ID: '52772'
+ */
+export const buscarDetalhesDoPrato = async (idDoPrato) => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/lookup.php?i=${mealId}`
-    );
-    const data = await response.json();
-    return data.meals?.[0] || null;
-  } catch (error) {
-    console.error('Erro ao buscar detalhes do prato:', error);
+    const resposta = await fetch(`${URL_BASE}/lookup.php?i=${idDoPrato}`);
+    const dados = await resposta.json();
+
+    return dados.meals?.[0] || null;
+  } catch (erro) {
+    console.error('Erro ao buscar os detalhes do prato:', erro);
     return null;
   }
-};
-
-// Alias para compatibilidade
-export const getDetalhesPrato = async (idMeal) => {
-  return fetchMealDetails(idMeal);
 };
