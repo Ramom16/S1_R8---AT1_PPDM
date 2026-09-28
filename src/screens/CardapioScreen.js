@@ -6,8 +6,8 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import { getPratosPorFiltro } from '../api/mealApi';
-import CardapioCard from '../components/Cardapiocard';
+import { buscarPratosPorFiltro } from '../api/mealApi';
+import CardapioCard from '../components/CardapioCard';
 
 export default function CardapioScreen({ route, navigation }) {
   const restaurante = route?.params?.restaurante;
@@ -29,7 +29,7 @@ export default function CardapioScreen({ route, navigation }) {
     try {
       setLoading(true);
       setError(null);
-      const dados = await getPratosPorFiltro(restaurante.categoriaAPI);
+      const dados = await buscarPratosPorFiltro(restaurante.categoriaAPI);
       setPratos(dados);
     } catch (err) {
       console.error('Erro ao carregar pratos:', err);

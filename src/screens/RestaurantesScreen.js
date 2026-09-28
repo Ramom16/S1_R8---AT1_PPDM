@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { RESTAURANTES } from '../data/mockRestaurantes';
-import RestauranteCard from '../components/Restaurantecard';
+import RestauranteCard from '../components/RestauranteCard';
 
 export default function RestaurantesScreen({ navigation }) {
   const handleSelectCardapio = (restaurante) => {

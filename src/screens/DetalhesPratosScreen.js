@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import { fetchMealDetails } from '../api/mealApi';
+import { buscarDetalhesDoPrato } from '../api/mealApi';
 
 export default function DetalhesPratosScreen({ route }) {
   const idMeal = route?.params?.idMeal;
@@ -29,7 +29,7 @@ export default function DetalhesPratosScreen({ route }) {
     try {
       setLoading(true);
       setError(null);
-      const dados = await fetchMealDetails(idMeal);
+      const dados = await buscarDetalhesDoPrato(idMeal);
       if (dados) {
         setPrato(dados);
       } else {
